@@ -1,21 +1,491 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>康文昌的在线HTML 教学小工具</title>
-    <style>  
-      body {
-        margin: 0;
-      }
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>王坤的HTML页面</title>
+    <!-- 柔和风格，清爽现代，没有任何外部依赖 -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #f9faff 0%, #eef1f8 100%);
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.5;
+            color: #1e2b3c;
+            padding: 2rem 1.5rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 主容器 – 优雅卡片效果 */
+        .page-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.6);
+            backdrop-filter: blur(4px);
+            border-radius: 3rem 3rem 2rem 2rem;
+            box-shadow: 0 20px 40px -12px rgba(0,20,40,0.25),
+                        0 2px 6px rgba(0,0,0,0.05);
+            padding: 2.5rem 2.2rem;
+            border: 1px solid rgba(255,255,255,0.7);
+            flex: 1;
+        }
+
+        /* 页头区域 */
+        .site-header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px dashed rgba(120, 140, 180, 0.2);
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-icon {
+            background: #1e3a5f;
+            color: white;
+            width: 48px;
+            height: 48px;
+            border-radius: 16px 8px 24px 8px; /* 有趣的不对称 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 500;
+            box-shadow: 0 10px 12px -8px #1e3a5f40;
+        }
+
+        .logo-text h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #1d2f44, #2d4b6e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .logo-text p {
+            font-size: 0.9rem;
+            color: #547087;
+            margin-top: 2px;
+        }
+
+        /* 导航模拟 */
+        .top-nav {
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+        }
+
+        .top-nav a {
+            text-decoration: none;
+            color: #2c405c;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 40px;
+            background: rgba(255,255,255,0.5);
+            transition: 0.2s ease;
+            border: 1px solid transparent;
+        }
+
+        .top-nav a:hover {
+            background: white;
+            border-color: #b4c8e0;
+            color: #0d2842;
+            box-shadow: 0 4px 10px rgba(0,30,50,0.1);
+            transform: scale(1.02);
+        }
+
+        /* 主视觉 / 英雄区 */
+        .hero {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 2.5rem;
+            margin: 2.5rem 0 4rem 0;
+        }
+
+        .hero-text {
+            flex: 1 1 300px;
+        }
+
+        .hero-text .badge {
+            background: rgba(60, 120, 180, 0.15);
+            color: #1e4c7a;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 1.2rem;
+            border: 1px solid rgba(60,120,180,0.3);
+            backdrop-filter: blur(2px);
+        }
+
+        .hero-text h2 {
+            font-size: 3.2rem;
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            color: #13293f;
+            margin-bottom: 1.2rem;
+        }
+
+        .hero-text h2 span {
+            background: linear-gradient(145deg, #2b5f8a, #4a8ab7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            color: #365a78;
+            max-width: 550px;
+            margin-bottom: 2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.9rem 2.2rem;
+            border-radius: 60px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.2s;
+            border: 1.5px solid transparent;
+            display: inline-block;
+            cursor: default;  /* 演示用，非链接 */
+        }
+
+        .btn-primary {
+            background: #1e3f5f;
+            color: white;
+            box-shadow: 0 12px 18px -10px #1e3f5fa0;
+        }
+
+        .btn-primary:hover {
+            background: #143249;
+            transform: translateY(-3px);
+            box-shadow: 0 20px 20px -10px #1e3f5fc0;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border-color: #b1c9e2;
+            color: #1e3f5f;
+        }
+
+        .btn-outline:hover {
+            background: white;
+            border-color: #7d9fc7;
+            transform: scale(1.02);
+        }
+
+        .hero-image {
+            flex: 1 1 300px;
+            background: radial-gradient(circle at 70% 30%, #ffffff80, #d9e5f2);
+            border-radius: 38% 62% 42% 58% / 52% 46% 54% 48%;
+            padding: 1rem;
+            min-height: 240px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 20px 25px 30px -15px rgba(28, 55, 84, 0.3);
+            border: 2px solid rgba(255,255,255,0.8);
+        }
+
+        .hero-image .placeholder-svg {
+            width: 100%;
+            text-align: center;
+            font-size: 1.6rem;
+            color: #1f486b;
+            font-weight: 400;
+            background: rgba(240, 248, 255, 0.5);
+            padding: 3rem 1rem;
+            border-radius: inherit;
+            backdrop-filter: blur(4px);
+        }
+
+        /* 卡片区域 —— 三列特性 */
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin: 3.5rem 0 3rem;
+            justify-content: center;
+        }
+
+        .card {
+            flex: 1 1 240px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+            padding: 2rem 1.5rem;
+            border-radius: 2rem;
+            border: 1px solid rgba(255,255,255,0.8);
+            box-shadow: 0 15px 30px -15px #24466233;
+            transition: transform 0.25s ease, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 30px 35px -18px #1b3b55;
+            background: rgba(255,255,255,0.85);
+        }
+
+        .card-icon {
+            background: #d6e6f9;
+            width: 60px;
+            height: 60px;
+            border-radius: 20px 8px 20px 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1.4rem;
+            color: #1d4d7c;
+            border: 1px solid white;
+        }
+
+        .card h3 {
+            font-size: 1.7rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #102b41;
+        }
+
+        .card p {
+            color: #395d7a;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-tag {
+            font-size: 0.85rem;
+            color: #6082a5;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .card-tag span {
+            background: #ebf3fa;
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+        }
+
+        /* 引用/ 额外区域 */
+        .testimonial {
+            background: rgba(235, 245, 255, 0.6);
+            border-radius: 2.5rem;
+            padding: 2.5rem 2.5rem 2rem 2.5rem;
+            margin: 3rem 0 2rem;
+            border: 1px solid white;
+            backdrop-filter: blur(4px);
+            text-align: center;
+        }
+
+        .testimonial q {
+            font-size: 1.6rem;
+            font-weight: 350;
+            display: block;
+            max-width: 800px;
+            margin: 0 auto 1.5rem;
+            color: #23496b;
+            quotes: "“" "”" "‘" "’";
+        }
+
+        .testimonial q::before {
+            content: "“";
+            font-size: 3rem;
+            line-height: 1;
+            color: #6682a1;
+            vertical-align: middle;
+            margin-right: 4px;
+        }
+        .testimonial q::after {
+            content: "”";
+            font-size: 3rem;
+            line-height: 1;
+            color: #6682a1;
+            vertical-align: bottom;
+            margin-left: 4px;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            color: #324e6b;
+            font-weight: 500;
+        }
+
+        .author-dot {
+            width: 32px;
+            height: 32px;
+            background: #96b8d4;
+            border-radius: 50%;
+            display: inline-block;
+            border: 3px solid white;
+        }
+
+        /* 页脚 */
+        .site-footer {
+            margin-top: 3.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1.8rem;
+            border-top: 2px solid rgba(120,150,180,0.15);
+            color: #476481;
+            font-size: 0.95rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: #3b5c7c;
+            transition: color 0.1s;
+        }
+        .footer-links a:hover {
+            color: #112b41;
+            text-decoration: underline;
+        }
+
+        /* 一些小装饰细节 */
+        .glow-text {
+            color: #345e86;
+        }
+
+        @media (max-width: 650px) {
+            body { padding: 1rem; }
+            .page-wrapper { padding: 1.5rem; }
+            .hero-text h2 { font-size: 2.4rem; }
+        }
     </style>
-  </head>
-  <body>
-<p>你好世界，我是ikun</p>
-<p>第一个段落就来写一首诗歌剧吧</p>
-<h>五八</h>
-<p>冰似山般寂静，</p>
-<p>山似水般流动，</p>
-<p>诗人可以如此的支配它吗？</p>
-  </body>
+</head>
+<body>
+    <div class="page-wrapper">
+        <header class="site-header">
+            <div class="logo-area">
+                <div class="logo-icon" aria-label="网站标志">✦</div>
+                <div class="logo-text">
+                    <h1>轻羽·界面</h1>
+                    <p>think light, feel air</p>
+                </div>
+            </div>
+            <nav class="top-nav" aria-label="主导航">
+                <a href="#" aria-current="page">首页</a>
+                <a href="#">作品</a>
+                <a href="#">日志</a>
+                <a href="#">关于</a>
+                <a href="#">联系</a>
+            </nav>
+        </header>
+
+        <main>
+            <!-- HERO 主视觉区 -->
+            <div class="hero">
+                <div class="hero-text">
+                    <span class="badge">✨ 全新定义 · v2.5</span>
+                    <h2>写出更<br><span>会呼吸</span> 的网页</h2>
+                    <p>不再只是代码——让每一次滚动、每一次点击都传递温和与质感。极简而不失细节。</p>
+                    <div class="cta-buttons">
+                        <a class="btn btn-primary" role="button" aria-label="开始体验">开始体验</a>
+                        <a class="btn btn-outline" role="button" aria-label="了解更多">了解更多</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="placeholder-svg">
+                        ⚡ 流畅 · 柔和 · 现代
+                    </div>
+                </div>
+            </div>
+
+            <!-- 特性卡片区域 -->
+            <section class="features" aria-label="核心特点">
+                <div class="card">
+                    <div class="card-icon">☁️</div>
+                    <h3>轻盈</h3>
+                    <p>纯CSS毛玻璃效果，自然的透明度与光影，让界面如同浮在背景之上。</p>
+                    <div class="card-tag"><span>backdrop-filter</span></div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">⚡</div>
+                    <h3>灵动</h3>
+                    <p>悬停缩放、微过渡、圆角变化。没有JavaScript，却足够友好。</p>
+                    <div class="card-tag"><span>transition</span></div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">📐</div>
+                    <h3>自在</h3>
+                    <p>完全基于flex与自适应单位，在手机与宽屏上一样舒展。</p>
+                    <div class="card-tag"><span>响应式</span></div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🎨</div>
+                    <h3>细腻</h3>
+                    <p>蓝灰基调，点缀温和渐变，长时间阅读也舒适，照顾每一次视觉体验。</p>
+                    <div class="card-tag"><span>配色</span></div>
+                </div>
+            </section>
+
+            <!-- 一段引用 / 用户故事 ( 纯粹氛围 ) -->
+            <div class="testimonial">
+                <q>这个页面没有使用任何图片与JS，却让人感到平静与专业。每一个细节都刚刚好。</q>
+                <div class="testimonial-author">
+                    <span class="author-dot" style="background: #7699b9;"></span>
+                    <span>—— 设计伙伴 · 小柯</span>
+                </div>
+            </div>
+
+            <!-- 一个小小的附加信息区：时间或者标语 -->
+            <div style="display: flex; justify-content: center; gap: 2.5rem; flex-wrap: wrap; margin: 2rem 0 1rem;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <span style="font-size: 2rem;">🕊️</span>
+                    <span style="color:#1e4566;">干净代码 · 纯粹表达</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <span style="font-size: 2rem;">🌿</span>
+                    <span style="color:#1e4566;">2025 · 早春构建</span>
+                </div>
+            </div>
+        </main>
+
+        <footer class="site-footer">
+            <div>© 2025 轻羽界面 · 保留无限温和</div>
+            <div class="footer-links">
+                <a href="#">风格指南</a>
+                <a href="#">隐私</a>
+                <a href="#">使用条款</a>
+            </div>
+        </footer>
+    </div>
+    <!-- 注：本页面完全不依赖任何外部库，纯html + css，演示了现代css特性与柔和设计 -->
+</body>
 </html>
